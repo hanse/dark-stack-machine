@@ -37,16 +37,25 @@ var instructionSet = {
   xor: 0x22
 };
 
+/**
+ * To be used with Array.filter()
+ */
 var notBlank = function(string) {
   return string.trim() !== '';
 };
 
+/**
+ *
+ */
 function VirtualMachine() {
   if (!(this instanceof VirtualMachine)) return new VirtualMachine();
   this.reset();
   this.code = [];
 }
 
+/**
+ *
+ */
 VirtualMachine.prototype.reset = function() {
   this.programCounter = 0;
   this.stack = [];
@@ -57,6 +66,10 @@ VirtualMachine.prototype.reset = function() {
   this.startLabel = '';
 };
 
+/**
+ * Load a string of Dark assembly code
+ * into the machine.
+ */
 VirtualMachine.prototype.load = function(string) {
   var contents = string.split('\n').filter(notBlank)
     , self = this;
@@ -64,7 +77,7 @@ VirtualMachine.prototype.load = function(string) {
   this.code = [];
 
   contents.forEach(function(line, i) {
-    var parts = line.trim().split(' ');
+    var parts = line.split(' ');
     if (parts.length === 1) {
       if (parts[0] in instructionSet) {
         self.code.push([parts[0], ''])
@@ -82,11 +95,17 @@ VirtualMachine.prototype.load = function(string) {
   });
 };
 
+/**
+ *
+ */
 VirtualMachine.prototype.jumpToLabel = function(label) {
   if (label in this.labels)
     this.programCounter = this.labels[label];
 };
 
+/**
+ *
+ */
 VirtualMachine.prototype.executeSingle = function() {
   var currentInstruction = this.code[this.programCounter]
     , label = currentInstruction[0]
@@ -211,10 +230,12 @@ VirtualMachine.prototype.executeSingle = function() {
       break;
   }
 
-  if (this.programCounter >= this.code.length) return false;
-  ++this.programCounter;
+  if (++this.programCounter >= this.code.length) return false;
 };
 
+/**
+ * Run the program until it exits.
+ */
 VirtualMachine.prototype.run = function() {
   var start = this.startLabel;
   if (start !== 0) start = this.labels[start];

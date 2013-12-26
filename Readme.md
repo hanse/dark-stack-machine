@@ -1,6 +1,8 @@
 # Dark Assembly Virtual Machine
 
-See [examples/](examples/).
+Run code written in the Dark assembly language.
+
+See [examples/](examples/). (All of them are solutions from the course TDT4160 @ NTNU. Credits to the authors.)
 
 ## Instruction Set
 
