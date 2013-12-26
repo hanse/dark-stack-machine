@@ -1,0 +1,15 @@
+main
+
+whilestart
+  swap
+  dup
+  push -1
+  ne
+  jfalse whileslutt
+  xor
+  jmp whilestart
+whileslutt
+
+drop
+
+end main

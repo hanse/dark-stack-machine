@@ -1,0 +1,22 @@
+;# creds til åsmund T. :P #
+
+main
+
+push 0   ; sum
+swap
+start
+lokke:
+  dup
+  jfalse slutt
+  push 1
+  sub
+  rot
+  push 2
+  mul
+  add
+  swap
+  jmp lokke
+slutt:
+  drop
+
+end main
