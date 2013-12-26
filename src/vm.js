@@ -82,7 +82,7 @@ VirtualMachine.prototype.load = function(string) {
       line = line.slice(0, commentStart-1);
     }
 
-    var parts = line.split(' ');
+    var parts = line.trim().split(' ');
     if (parts.length === 1) {
       if (parts[0] in instructionSet) {
         self.code.push([parts[0], ''])
