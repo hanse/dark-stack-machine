@@ -77,6 +77,11 @@ VirtualMachine.prototype.load = function(string) {
   this.code = [];
 
   contents.forEach(function(line, i) {
+    var commentStart = line.indexOf(';');
+    if (commentStart != -1) {
+      line = line.slice(0, commentStart-1);
+    }
+
     var parts = line.split(' ');
     if (parts.length === 1) {
       if (parts[0] in instructionSet) {
