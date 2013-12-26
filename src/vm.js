@@ -116,7 +116,7 @@ VirtualMachine.prototype.executeSingle = function() {
     , label = currentInstruction[0]
     , arg   = currentInstruction[1]
 
-  console.log('Executing %s %s. Stack: %s. PC: ', label, arg, this.stack, this.programCounter);
+  console.log('--> %s %s. Stack: %s. PC: ', label, arg, this.stack, this.programCounter);
 
   switch (label) {
     case 'add':
@@ -158,7 +158,7 @@ VirtualMachine.prototype.executeSingle = function() {
       break;
     case 'data': // data (number) name
       this.symbols[arg] = 0;
-    break;
+      break;
     case 'div':
       var a = this.stack.pop()
         , b = this.stack.pop()
@@ -170,17 +170,28 @@ VirtualMachine.prototype.executeSingle = function() {
       break;
     case 'dup': // probably avoid the popping and just do a peek
       var a = this.stack.pop();
-      this.stack.push(a);
-      this.stack.push(a);
+      this.stack.push(a, a);
       break;
     case 'end':
       this.finished = true;
       break;
     case 'eq':
+      var a = this.stack.pop()
+        , b = this.stack.pop();
+
+      this.stack.push((b==a)|0);
       break;
     case 'ge':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push((b>=a)|0);
       break;
     case 'gt':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push((b>a)|0);
       break;
     case 'jfalse':
       if (this.stack.pop() === 0) this.jumpToLabel(arg);
@@ -192,6 +203,10 @@ VirtualMachine.prototype.executeSingle = function() {
       if (this.stack.pop() === 1) this.jumpToLabel(arg);
       break;
     case 'le':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push((b<=a)|0);
       break;
     case 'lt':
       var a = this.stack.pop()
@@ -200,14 +215,30 @@ VirtualMachine.prototype.executeSingle = function() {
       this.stack.push((b<a)|0);
       break;
     case 'mod':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push(a%b);
       break;
     case 'mul':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push(a*b);
       break;
     case 'ne':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push((a!=b)|0);
       break;
     case 'not':
+      this.stack.push((!this.stack.pop())|0);
       break;
     case 'or':
+      var a = this.stack.pop()
+        , b = this.stack.pop();
+      this.stack.push((a||b)|0);
       break;
     case 'pop': // pop {arg}
       this.symbols[arg] = this.stack.pop();
@@ -224,12 +255,24 @@ VirtualMachine.prototype.executeSingle = function() {
     case 'ret':
       break;
     case 'rot':
-      break;
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+        , c = this.stack.pop();
+
+      this.stack.push(a, c, b);
     case 'stop':
-      break;
+      return false;
     case 'sub':
+      var a = this.stack.pop()
+        , b = this.stack.pop();
+      this.stack.push(a-b);
       break;
     case 'swap':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push(b, a);
+
       break;
     case 'xor':
       break;

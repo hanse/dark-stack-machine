@@ -4,6 +4,8 @@ Run code written in the Dark assembly language.
 
 See [examples/](examples/). (All of them are solutions from the course TDT4160 @ NTNU. Credits to the authors.)
 
+It can either be run using the `dark` executable or using an [web application]().
+
 ## Instruction Set
 
 add
