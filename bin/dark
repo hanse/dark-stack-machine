@@ -5,7 +5,7 @@ var vm = require('../src/vm.js');
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
-var buf = "";
+var buf = '';
 
 process.stdin.on('data', function(chunk) {
   buf += chunk;
@@ -13,6 +13,6 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
   vm.load(buf);
-  vm.stack = [0,-1,-4,2,3];
+  vm.stack = [0,2,3,4,5,6,7];
   vm.run();
 });

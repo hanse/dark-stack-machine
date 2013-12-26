@@ -9,7 +9,6 @@ whilestart
   xor
   jmp whilestart
 whileslutt
-
-drop
+  drop
 
 end main

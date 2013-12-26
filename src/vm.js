@@ -62,7 +62,6 @@ VirtualMachine.prototype.reset = function() {
   this.symbols = {};
   this.returnStack = [];
   this.labels = {};
-  this.finished = false;
   this.startLabel = '';
 };
 
@@ -116,7 +115,7 @@ VirtualMachine.prototype.executeSingle = function() {
     , label = currentInstruction[0]
     , arg   = currentInstruction[1]
 
-  console.log('--> %s %s. Stack: %s. PC: ', label, arg, this.stack, this.programCounter);
+  console.log('--> %s %s. \tStack: [%s]. \tPC: ', label, arg, this.stack, this.programCounter);
 
   switch (label) {
     case 'add':
@@ -135,11 +134,11 @@ VirtualMachine.prototype.executeSingle = function() {
       var a = this.stack.pop()
         , b = this.stack.pop()
 
-      this.stack.push((a&b)|0);
+      this.stack.push(a&b);
       break;
     case 'bnot':
       var a = this.stack.pop()
-      this.stack.push((!a)|0);
+      this.stack.push(~a);
       break;
     case 'bor':
       var a = this.stack.pop()
@@ -163,7 +162,7 @@ VirtualMachine.prototype.executeSingle = function() {
       var a = this.stack.pop()
         , b = this.stack.pop()
 
-      this.stack.push(a/b);
+      this.stack.push(b/a);
       break;
     case 'drop':
       this.stack.pop();
@@ -173,8 +172,7 @@ VirtualMachine.prototype.executeSingle = function() {
       this.stack.push(a, a);
       break;
     case 'end':
-      this.finished = true;
-      break;
+      return false;
     case 'eq':
       var a = this.stack.pop()
         , b = this.stack.pop();
@@ -248,7 +246,7 @@ VirtualMachine.prototype.executeSingle = function() {
     case 'pull':
       break;
     case 'push':
-      this.stack.push(this.symbols[arg]);
+        this.stack.push(!isNaN(arg) ? parseInt(arg) : this.symbols[arg]);
       break;
     case 'pusha':
       break;
@@ -260,25 +258,31 @@ VirtualMachine.prototype.executeSingle = function() {
         , c = this.stack.pop();
 
       this.stack.push(a, c, b);
+      break;
     case 'stop':
       return false;
     case 'sub':
       var a = this.stack.pop()
         , b = this.stack.pop();
-      this.stack.push(a-b);
+      this.stack.push(b-a);
       break;
     case 'swap':
       var a = this.stack.pop()
         , b = this.stack.pop()
 
-      this.stack.push(b, a);
+      this.stack.push(a, b);
 
       break;
     case 'xor':
+      var a = this.stack.pop()
+        , b = this.stack.pop()
+
+      this.stack.push((a^b)|0);
       break;
   }
 
   if (++this.programCounter >= this.code.length) return false;
+  return true;
 };
 
 /**
@@ -290,8 +294,7 @@ VirtualMachine.prototype.run = function() {
 
   var self = this;
   var main = setInterval(function() {
-    self.executeSingle();
-    if (self.finished) {
+    if (!self.executeSingle()) {
       clearInterval(main);
       console.log("Result %s", self.stack[0]);
     }

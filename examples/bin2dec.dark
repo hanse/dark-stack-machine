@@ -4,8 +4,8 @@ main
 
 push 0   ; sum
 swap
-start
-lokke:
+;start
+lokke
   dup
   jfalse slutt
   push 1
@@ -16,7 +16,7 @@ lokke:
   add
   swap
   jmp lokke
-slutt:
+slutt
   drop
 
 end main
