@@ -256,10 +256,16 @@ VirtualMachine.prototype.executeSingle = function() {
   return true;
 };
 
+VirtualMachine.prototype.getStartInstruction = function() {
+  if (this.startLabel === 0) return 0;
+  return this.labels[this.startLabel];
+};
+
 /**
  * Run the program until it exits.
  */
 VirtualMachine.prototype.run = function(fn) {
+  this.programCounter = this.getStartInstruction();
   while (this.executeSingle()) {}
   fn(this.stack[0]);
 };
