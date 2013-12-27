@@ -1,0 +1,21 @@
+!!!
+html(ng-app)
+  head
+    meta(charset='utf-8')
+    title Dark
+
+    link(rel='stylesheet', href='style.css')
+
+  body
+    section(ng-controller='VirtualMachineController')
+      h2 DARK
+      #instructions
+        li(ng-repeat='instruction in instructions')
+          span(ng-class='{current: instruction == $index}') {{instruction}}
+
+      button(ng-click='executeSingle()') One step
+      button(ng-click='executeAll()') Execute all
+      button(ng-click='pause()') Pause execution
+
+      script(src='angular.min.js')
+      script(src='build.js')

@@ -1,3 +1,6 @@
+
+var vm = require('./vm');
+
 var app = angular.module('VirtualMachine', []);
 
 app.controller('VirtualMachineController', ['$scope', '$timeout', function($scope, $timeout) {
@@ -14,6 +17,8 @@ app.controller('VirtualMachineController', ['$scope', '$timeout', function($scop
    * visualize the current instruction.
    */
   $scope.currentInstruction = vm.programCounter;
+
+  $scope.instructions = vm.code;
 
   /**
    * Execute a single program instruction

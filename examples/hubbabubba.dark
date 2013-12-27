@@ -1,0 +1,23 @@
+data 12 hubba
+data  bubba
+area  11
+data  gubba
+main  push hubba
+  dup
+  pusha bubba
+  add
+  push 1
+  rot
+  popa
+  call do0
+  jmp quits
+  stop
+do0 dup
+  pop bubba
+  dup
+  ne
+  jfalse true
+  ret
+true  ret
+quits stop
+  end main

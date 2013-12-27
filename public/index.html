@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>Dark</title>
+  </head>
+  <body>
+    <section ng-controller="VirtualMachineController">
+      <h2>DARK</h2>
+      <div id="instructions">
+        <li ng-repeat="instruction in instructions"><span ng-class="{current: instruction == $index}">{{instruction}}</span></li>
+      </div>
+      <button ng-click="executeSingle()">One step</button>
+      <button ng-click="executeAll()">Execute all</button>
+      <button ng-click="pause()">Pause execution</button>
+    </section>
+  </body>
+</html>
