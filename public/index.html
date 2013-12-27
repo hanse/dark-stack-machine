@@ -11,32 +11,33 @@
     </header>
     <section>
       <textarea id="code" ng-model="code" placeholder="Paste DARK Assembly code here"></textarea>
-      <button ng-click="loadCode()">Load code</button>
+      <button ng-click="loadCode()" class="blue">Load code</button>
+      <table>
+        <tr>
+          <td>Stack</td>
+          <td>{{stack}}</td>
+        </tr>
+        <tr>
+          <td>PC</td>
+          <td>{{currentInstruction}}</td>
+        </tr>
+        <tr>
+          <td>Finished</td>
+          <td>{{finishedRunning}}</td>
+        </tr>
+      </table>
     </section>
     <section>
-      <ul id="instructions">
-        <li ng-repeat="instruction in instructions"><span ng-class="{current: currentInstruction == $index}">{{instruction}}</span></li>
-      </ul>
+      <div id="controls">
+        <button ng-click="executeSingle()" class="green">One step</button>
+        <button ng-click="executeAll()" class="green">Execute all</button>
+        <button ng-click="pause()" class="red">Pause execution</button>
+      </div>
+      <p ng-show="instructions.length == 0"><em>No instructions available</em></p>
+      <ol id="instructions">
+        <li ng-repeat="instruction in instructions" ng-class="{current: currentInstruction == $index}"><span>{{instruction}}</span></li>
+      </ol>
     </section>
-    <div id="controls">
-      <button ng-click="executeSingle()">One step</button>
-      <button ng-click="executeAll()">Execute all</button>
-      <button ng-click="pause()">Pause execution</button>
-    </div>
-    <table>
-      <tr>
-        <td>Stack</td>
-        <td>{{stack}}</td>
-      </tr>
-      <tr>
-        <td>PC</td>
-        <td>{{currentInstruction}}</td>
-      </tr>
-      <tr>
-        <td>Finished</td>
-        <td>{{finishedRunning}}</td>
-      </tr>
-    </table>
     <script src="angular.min.js"></script>
     <script src="build.js"></script>
   </body>

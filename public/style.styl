@@ -23,23 +23,26 @@ h1
   font-size 24px
   font-weight 700
 
+h2
+  font-size 20px
+  font-weight 700
 
 section
   float left
   width 50%
   padding 20px
-  background red
   height 100%
 
 #instructions
-
   li
-    padding 5px
     background #eee
     border-bottom 1px solid #ccc
+    font-size 14px
+    padding 5px
 
-    span.current
+    &.current
       color red
+      background #fff
 
 #controls
   clear both
@@ -50,7 +53,11 @@ textarea
   font-size 16px
   height 300px
   font-family $font-family
-  padding 10px
+  padding 15px
+  outline none
+  border 2px solid #aaa
+  border-radius 5px
+  margin-bottom 15px
 
 button
   font-size 16px
@@ -60,9 +67,22 @@ button
   cursor pointer
   font-family $font-family
   outline none
-  padding 10px
+  padding 10px 20px
   font-weight 700
+  border-radius 5px
+  margin-bottom 15px
 
+  &:hover
+    opacity .9
+
+.green
+  background #27ae60
+
+.red
+  background #e74c3c
+
+.blue
+  background #2980b9
 
 table
   width 640px

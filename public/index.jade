@@ -13,30 +13,33 @@ html(ng-app='DarkStackMachine')
       section
         textarea#code(ng-model='code', placeholder='Paste DARK Assembly code here')
 
-        button(ng-click='loadCode()') Load code
+        button.blue(ng-click='loadCode()') Load code
+
+        table
+          tr
+            td Stack
+            td {{stack}}
+
+          tr
+            td PC
+            td {{currentInstruction}}
+
+          tr
+            td Finished
+            td {{finishedRunning}}
+
 
       section
-        ul#instructions
-          li(ng-repeat='instruction in instructions')
-            span(ng-class='{current: currentInstruction == $index}') {{instruction}}
+        #controls
+          button.green(ng-click='executeSingle()') One step
+          button.green(ng-click='executeAll()') Execute all
+          button.red(ng-click='pause()') Pause execution
 
-      #controls
-        button(ng-click='executeSingle()') One step
-        button(ng-click='executeAll()') Execute all
-        button(ng-click='pause()') Pause execution
-
-      table
-        tr
-          td Stack
-          td {{stack}}
-
-        tr
-          td PC
-          td {{currentInstruction}}
-
-        tr
-          td Finished
-          td {{finishedRunning}}
+        p(ng-show='instructions.length == 0')
+          em No instructions available
+        ol#instructions
+          li(ng-repeat='instruction in instructions', ng-class='{current: currentInstruction == $index}')
+            span {{instruction}}
 
       script(src='angular.min.js')
       script(src='build.js')
