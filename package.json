@@ -1,5 +1,5 @@
 {
-  "name": "dark-assembler",
+  "name": "dark-stack-machine",
   "version": "0.0.1",
   "devDependencies": {
     "mocha": "latest"
