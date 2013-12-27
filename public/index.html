@@ -29,11 +29,11 @@
     </section>
     <section>
       <div id="controls">
-        <button ng-click="executeSingle()" class="green">One step</button>
-        <button ng-click="executeAll()" class="green">Execute all</button>
+        <button ng-disabled="instructions.length==0" ng-click="executeSingle()" class="green">One step</button>
+        <button ng-disabled="instructions.length==0" ng-click="executeAll()" class="green">Execute all</button>
         <button ng-click="pause()" class="red">Pause execution</button>
       </div>
-      <p ng-show="instructions.length == 0"><em>No instructions available</em></p>
+      <p ng-show="instructions.length == 0"><em>No instructions available.</em></p>
       <ol id="instructions">
         <li ng-repeat="instruction in instructions" ng-class="{current: currentInstruction == $index}"><span>{{instruction}}</span></li>
       </ol>

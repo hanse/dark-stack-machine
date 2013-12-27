@@ -7,7 +7,6 @@ app.controller('VirtualMachineController', ['$scope', '$timeout',
 
   $scope.code = "";
 
-
   vm.load($scope.code);
 
   /**
@@ -30,6 +29,9 @@ app.controller('VirtualMachineController', ['$scope', '$timeout',
   $scope.loadCode = function() {
     vm.load($scope.code);
     $scope.instructions = vm.code;
+    $scope.stack = [];
+    $scope.finishedRunning = false;
+    $scope.currentInstruction = vm.programCounter;
   };
 
   /**
@@ -38,7 +40,12 @@ app.controller('VirtualMachineController', ['$scope', '$timeout',
   $scope.executeSingle = function() {
     $scope.currentInstruction = vm.programCounter;
     $scope.stack = vm.stack;
-    return vm.executeSingle();
+    try {
+      return vm.executeSingle();
+    } catch (err) {
+      alert(err);
+      return false;
+    }
   };
 
   /**
@@ -53,5 +60,9 @@ app.controller('VirtualMachineController', ['$scope', '$timeout',
         $scope.finishedRunning = true;
     };
     $timeout(execute, executionDelay);
+  };
+
+  $scope.pause = function() {
+    alert('Not implemented');
   };
 }]);

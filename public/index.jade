@@ -31,12 +31,12 @@ html(ng-app='DarkStackMachine')
 
       section
         #controls
-          button.green(ng-click='executeSingle()') One step
-          button.green(ng-click='executeAll()') Execute all
+          button(ng-disabled='instructions.length==0').green(ng-click='executeSingle()') One step
+          button(ng-disabled='instructions.length==0').green(ng-click='executeAll()') Execute all
           button.red(ng-click='pause()') Pause execution
 
         p(ng-show='instructions.length == 0')
-          em No instructions available
+          em No instructions available.
         ol#instructions
           li(ng-repeat='instruction in instructions', ng-class='{current: currentInstruction == $index}')
             span {{instruction}}
