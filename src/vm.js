@@ -14,7 +14,6 @@ var notBlank = function(string) {
 function VirtualMachine() {
   if (!(this instanceof VirtualMachine)) return new VirtualMachine();
   this.reset();
-  this.code = [];
 }
 
 /**
@@ -27,26 +26,31 @@ VirtualMachine.prototype.reset = function() {
   this.returnStack = [];
   this.labels = {};
   this.startLabel = '';
+  this.code = [];
 };
 
 /**
  * Load a string of Dark assembly code
  * into the machine.
+ *
+ * Preprocesses the code to resolve labels
+ * and interesting things like that.
  */
 VirtualMachine.prototype.load = function(string) {
   var contents = string.split('\n').filter(notBlank)
     , self = this;
 
-  this.code = [];
+  this.reset();
 
   contents.forEach(function(line, i) {
     var commentStart = line.indexOf(';');
-    if (commentStart != -1) {
+    if (commentStart != -1)
       line = line.slice(0, commentStart-1);
-    }
 
     var parts = line.trim().split(' ');
     if (parts.length === 1) {
+      // If the mnemonic is part of the instruction set
+      // it is not a custom label.
       if (parts[0] in instructionSet) {
         self.code.push([parts[0], ''])
       } else {
@@ -57,9 +61,11 @@ VirtualMachine.prototype.load = function(string) {
       self.code.push([parts[0], parts[1]])
     }
 
-    if (parts[0] === 'end') {
-      self.startLabel = parts[0] || 0;
-    }
+    // The spec says that `end` should either
+    // run the given label or start from 0
+    // if a label is not given.
+    if (parts[0] === 'end')
+      self.startLabel = parts[1] || 0;
   });
 };
 
@@ -67,8 +73,9 @@ VirtualMachine.prototype.load = function(string) {
  *
  */
 VirtualMachine.prototype.jumpToLabel = function(label) {
-  if (label in this.labels)
-    this.programCounter = this.labels[label];
+  if (!(label in this.labels))
+    throw new Error('Label ' + label + ' is not defined.');
+  this.programCounter = this.labels[label];
 };
 
 /**
@@ -253,8 +260,6 @@ VirtualMachine.prototype.executeSingle = function() {
  * Run the program until it exits.
  */
 VirtualMachine.prototype.run = function(fn) {
-  var start = this.startLabel;
-  if (start !== 0) start = this.labels[start];
   while (this.executeSingle()) {}
   fn(this.stack[0]);
 };
