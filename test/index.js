@@ -15,4 +15,9 @@ describe('Dark Stack Machine', function() {
       done();
     });
   });
+
+  it('should start at correct instruction', function() {
+    vm.load('test\npush 1\nmain\npush 2\ndup\nend main');
+    assert.equal(vm.getStartInstruction(), 2);
+  });
 });

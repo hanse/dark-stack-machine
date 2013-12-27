@@ -17,4 +17,7 @@ public/build.js: $(JS)
 clean:
 	rm -f $(HTML)
 
-.PHONY: clean
+test:
+	mocha --colors --reporter list
+
+.PHONY: clean test
