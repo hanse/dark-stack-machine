@@ -1,18 +1,43 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="DarkStackMachine">
   <head>
     <meta charset="utf-8">
     <title>Dark</title>
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    <section ng-controller="VirtualMachineController">
-      <h2>DARK</h2>
-      <div id="instructions">
-        <li ng-repeat="instruction in instructions"><span ng-class="{current: instruction == $index}">{{instruction}}</span></li>
-      </div>
+  <body ng-controller="VirtualMachineController">
+    <header>
+      <h1>DARK Stack Machine</h1>
+    </header>
+    <section>
+      <textarea id="code" ng-model="code" placeholder="Paste DARK Assembly code here"></textarea>
+      <button ng-click="loadCode()">Load code</button>
+    </section>
+    <section>
+      <ul id="instructions">
+        <li ng-repeat="instruction in instructions"><span ng-class="{current: currentInstruction == $index}">{{instruction}}</span></li>
+      </ul>
+    </section>
+    <div id="controls">
       <button ng-click="executeSingle()">One step</button>
       <button ng-click="executeAll()">Execute all</button>
       <button ng-click="pause()">Pause execution</button>
-    </section>
+    </div>
+    <table>
+      <tr>
+        <td>Stack</td>
+        <td>{{stack}}</td>
+      </tr>
+      <tr>
+        <td>PC</td>
+        <td>{{currentInstruction}}</td>
+      </tr>
+      <tr>
+        <td>Finished</td>
+        <td>{{finishedRunning}}</td>
+      </tr>
+    </table>
+    <script src="angular.min.js"></script>
+    <script src="build.js"></script>
   </body>
 </html>

@@ -1,21 +1,42 @@
 !!!
-html(ng-app)
+html(ng-app='DarkStackMachine')
   head
     meta(charset='utf-8')
     title Dark
 
     link(rel='stylesheet', href='style.css')
 
-  body
-    section(ng-controller='VirtualMachineController')
-      h2 DARK
-      #instructions
-        li(ng-repeat='instruction in instructions')
-          span(ng-class='{current: instruction == $index}') {{instruction}}
+  body(ng-controller='VirtualMachineController')
+      header
+        h1 DARK Stack Machine
 
-      button(ng-click='executeSingle()') One step
-      button(ng-click='executeAll()') Execute all
-      button(ng-click='pause()') Pause execution
+      section
+        textarea#code(ng-model='code', placeholder='Paste DARK Assembly code here')
+
+        button(ng-click='loadCode()') Load code
+
+      section
+        ul#instructions
+          li(ng-repeat='instruction in instructions')
+            span(ng-class='{current: currentInstruction == $index}') {{instruction}}
+
+      #controls
+        button(ng-click='executeSingle()') One step
+        button(ng-click='executeAll()') Execute all
+        button(ng-click='pause()') Pause execution
+
+      table
+        tr
+          td Stack
+          td {{stack}}
+
+        tr
+          td PC
+          td {{currentInstruction}}
+
+        tr
+          td Finished
+          td {{finishedRunning}}
 
       script(src='angular.min.js')
       script(src='build.js')

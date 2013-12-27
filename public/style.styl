@@ -3,9 +3,71 @@
 
 global-reset()
 
-body
-  font-family Menlo, monospace
-  color green
+*
+  box-sizing border-box
+  font-smoothing antialiased
 
-h2
-  font-size 22px
+$font-family = Menlo, monospace
+
+body
+  font-family $font-family
+  color #444
+  padding 20px
+  line-height 1.6
+  font-size 18px
+
+header
+  padding 20px
+
+h1
+  font-size 24px
+  font-weight 700
+
+
+section
+  float left
+  width 50%
+  padding 20px
+  background red
+  height 100%
+
+#instructions
+
+  li
+    padding 5px
+    background #eee
+    border-bottom 1px solid #ccc
+
+    span.current
+      color red
+
+#controls
+  clear both
+
+textarea
+  width 100%
+  display block
+  font-size 16px
+  height 300px
+  font-family $font-family
+  padding 10px
+
+button
+  font-size 16px
+  border 0
+  background #555
+  color #fff
+  cursor pointer
+  font-family $font-family
+  outline none
+  padding 10px
+  font-weight 700
+
+
+table
+  width 640px
+  border-collapse collapse
+
+  td
+    border 1px solid #ddd
+    padding 5px 10px

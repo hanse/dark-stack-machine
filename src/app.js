@@ -1,16 +1,19 @@
 
-var vm = require('./vm');
+var vm      = require('./vm')
+  , app     = angular.module('DarkStackMachine', []);
 
-var app = angular.module('VirtualMachine', []);
+app.controller('VirtualMachineController', ['$scope', '$timeout',
+  function($scope, $timeout) {
 
-app.controller('VirtualMachineController', ['$scope', '$timeout', function($scope, $timeout) {
+  $scope.code = "";
 
-  var vm = new VirtualMachine();
+
+  vm.load($scope.code);
 
   /**
    * ms to wait before executing next instruction.
    */
-  var executionDelay = 200;
+  var executionDelay = 400;
 
   /**
    * Copy of the program counter so we can
@@ -18,14 +21,24 @@ app.controller('VirtualMachineController', ['$scope', '$timeout', function($scop
    */
   $scope.currentInstruction = vm.programCounter;
 
-  $scope.instructions = vm.code;
+  $scope.instructions = [];
+
+  $scope.stack = [];
+
+  $scope.finishedRunning = false;
+
+  $scope.loadCode = function() {
+    vm.load($scope.code);
+    $scope.instructions = vm.code;
+  };
 
   /**
    * Execute a single program instruction
    */
   $scope.executeSingle = function() {
-    vm.executeSingle();
     $scope.currentInstruction = vm.programCounter;
+    $scope.stack = vm.stack;
+    return vm.executeSingle();
   };
 
   /**
@@ -34,8 +47,10 @@ app.controller('VirtualMachineController', ['$scope', '$timeout', function($scop
    */
   $scope.executeAll = function() {
     var execute = function() {
-      vm.executeSingle();
-      $timeout(execute, executionDelay);
+      if ($scope.executeSingle())
+        $timeout(execute, executionDelay);
+      else
+        $scope.finishedRunning = true;
     };
     $timeout(execute, executionDelay);
   };

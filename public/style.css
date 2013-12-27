@@ -89,11 +89,69 @@ td {
 a img {
   border: none;
 }
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
 body {
   font-family: Menlo, monospace;
-  color: #008000;
+  color: #444;
+  padding: 20px;
+  line-height: 1.6;
+  font-size: 18px;
 }
-h2 {
-  font-size: 22px;
+header {
+  padding: 20px;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+section {
+  float: left;
+  width: 50%;
+  padding: 20px;
+  background: #f00;
+  height: 100%;
+}
+#instructions li {
+  padding: 5px;
+  background: #eee;
+  border-bottom: 1px solid #ccc;
+}
+#instructions li span.current {
+  color: #f00;
+}
+#controls {
+  clear: both;
+}
+textarea {
+  width: 100%;
+  display: block;
+  font-size: 16px;
+  height: 300px;
+  font-family: Menlo, monospace;
+  padding: 10px;
+}
+button {
+  font-size: 16px;
+  border: 0;
+  background: #555;
+  color: #fff;
+  cursor: pointer;
+  font-family: Menlo, monospace;
+  outline: none;
+  padding: 10px;
+  font-weight: 700;
+}
+table {
+  width: 640px;
+  border-collapse: collapse;
+}
+table td {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
 }
 
