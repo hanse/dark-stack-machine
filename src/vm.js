@@ -1,41 +1,5 @@
 
-var instructionSet = {
-  add: 0x00,
-  and: 0x01,
-  band: 0x02,
-  bnot: 0x03,
-  bor: 0x04,
-  bxor: 0x05,
-  call: 0x06,
-  div: 0x07,
-  drop: 0x08,
-  dup: 0x09,
-  end: 0x0A,
-  eq: 0x0B,
-  ge: 0x0C,
-  gt: 0x0D,
-  jfalse: 0x0E,
-  jmp: 0x0F,
-  jtrue: 0x10,
-  le: 0x11,
-  lt: 0x12,
-  mod: 0x13,
-  mul: 0x14,
-  ne: 0x15,
-  not: 0x16,
-  or: 0x17,
-  pop: 0x18,
-  popa: 0x19,
-  pull: 0x1A,
-  push: 0x1B,
-  pusha: 0x1C,
-  ret: 0x1D,
-  rot: 0x1E,
-  stop: 0x1F,
-  sub: 0x20,
-  swap: 0x21,
-  xor: 0x22
-};
+var instructionSet = require('./instruction-set');
 
 /**
  * To be used with Array.filter()
@@ -288,17 +252,11 @@ VirtualMachine.prototype.executeSingle = function() {
 /**
  * Run the program until it exits.
  */
-VirtualMachine.prototype.run = function() {
+VirtualMachine.prototype.run = function(fn) {
   var start = this.startLabel;
   if (start !== 0) start = this.labels[start];
-
-  var self = this;
-  var main = setInterval(function() {
-    if (!self.executeSingle()) {
-      clearInterval(main);
-      console.log("Result %s", self.stack[0]);
-    }
-  }, 200)
+  while (this.executeSingle()) {}
+  fn(this.stack[0]);
 };
 
 module.exports = new VirtualMachine();
